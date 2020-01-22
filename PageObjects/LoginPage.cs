@@ -5,7 +5,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace PageObjects
 {
-    public class LoginPage : BasePage, IGoToPage<LoginPage>
+    public class LoginPage : BasePage
     {
         public readonly new string url = "https://jira.softserve.academy/login.jsp";
         private UserModel userModel;
@@ -19,7 +19,7 @@ namespace PageObjects
             userModel = JsonHelper.GetUserModel();
         }
 
-        public LoginPage GoTo()
+        public LoginPage GoToLoginPage()
         {
             WebDriver.Navigate().GoToUrl(url);
             return this;
@@ -27,7 +27,7 @@ namespace PageObjects
 
         public LoginPage LogIn()
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             UsernameField.SendKeys(userModel.Username);
             PasswordField.SendKeys(userModel.Password);
             LogInButton.Click();

@@ -14,6 +14,7 @@ namespace PageObjects
         public readonly By AllIssuesBy = By.XPath("//span[contains(@class, 'summary')]");
         public readonly By ViewWorkflowButtonBy = By.XPath("//a[contains(@title,'workflow')]");
         public readonly By WorkflowBy = By.XPath("//div[@id='view-workflow-dialog']");
+        public readonly By CloseWorkflowBy = By.XPath("//button[text()='Close']");
 
         public IWebElement CreateIssueButton => FindElementByXPath(CreateIssueButtonBy);
         public IWebElement OpenIssuesForm => FindElementByXPath(OpenIssuesFormBy);
@@ -21,30 +22,30 @@ namespace PageObjects
         public ICollection<IWebElement> AllIssues => FindElementsByXPath(AllIssuesBy);
         public IWebElement ViewWorkflowButton => FindElementByXPath(ViewWorkflowButtonBy);
         public IWebElement Workflow => FindElementByXPath(WorkflowBy);
+        public IWebElement CloseWorkflowButton => FindElementByXPath(CloseWorkflowBy);
 
-        public CreateIssueModal createIssueModal;
+        public CreateIssueModal CreateIssueModal;
 
         public IssuesPage(IWebDriver webDriver) : base(webDriver) { }
 
-        public IssuesPage initIssueModal()
+        public IssuesPage InitIssueModal()
         {
-            createIssueModal = new CreateIssueModal(WebDriver);
+            CreateIssueModal = new CreateIssueModal(WebDriver);
             return this;
         }
 
         public IssuesPage OpenCreateIssueModal()
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(CreateIssueButtonBy);
             CreateIssueButton.Click();
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(OpenIssuesFormBy);
             OpenIssuesForm.Click();
-
             return this;
         }
 
-        public void GoTo()
+        public void GoToIssuePage()
         {
             WebDriver.Navigate().GoToUrl(url);
         }
@@ -53,7 +54,13 @@ namespace PageObjects
         {
             WaitBy(ViewWorkflowButtonBy);
             ViewWorkflowButton.Click();
+            return this;
+        }
 
+        public IssuesPage CloseWorkflow()
+        {
+            WaitBy(CloseWorkflowBy);
+            CloseWorkflowButton.Click();
             return this;
         }
 
@@ -66,7 +73,7 @@ namespace PageObjects
         public void VerifyThatIssueWasCreated(string issueName)
         {
             WebDriver.Navigate().Refresh();
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(AllIssuesBy);
             string actualName = AllIssues.Where(x => x.Text == issueName).FirstOrDefault().Text;
             Assert.AreEqual(issueName, actualName);

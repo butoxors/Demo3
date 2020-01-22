@@ -8,27 +8,31 @@ namespace Tests
     [TestFixture]
     public  abstract class BaseTest
     {
-        protected IWebDriver driver;
+        protected static IWebDriver driver = new ChromeDriver();
 
         protected LoginPage loginPage;
         protected MainPage mainPage;
         protected IssuesPage issuesPage;
         protected CommentPage commentPage;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
-            driver = new ChromeDriver();
             driver.Manage().Window.Maximize();
-
             loginPage = new LoginPage(driver);
             mainPage = new MainPage(driver);
             issuesPage = new IssuesPage(driver);
             commentPage = new CommentPage(driver);
+
+            loginPage
+                .GoToLoginPage()
+                .LogIn();
+            mainPage
+                .OpenProject();
         }
 
-        [TearDown]
-        public void closeBrowser()
+        [OneTimeTearDown]
+        public void CloseBrowser()
         {
             driver.Quit();
         }

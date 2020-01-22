@@ -69,7 +69,7 @@ namespace PageObjects
             return elements;
         }
 
-        public void WaitForLoaded()
+        public void WaitForPageToLoad()
         {
             IJavaScriptExecutor js = (IJavaScriptExecutor)WebDriver;
             webDriverWait.Until(webDriver => js.ExecuteScript("return document.readyState").Equals("complete"));

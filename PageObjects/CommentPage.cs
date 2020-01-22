@@ -47,7 +47,7 @@ namespace PageObjects
 
         public CommentPage CreateComment(string message)
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(commentButtonBy);
             commentButton.Click();
             WaitBy(commentTextModeBy);
@@ -61,7 +61,7 @@ namespace PageObjects
 
         public CommentPage VerifyThatCommentCreated(string expected)
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(textOfCommentBy);
             string actualResult = textOfComment.GetAttribute("innerText").ToString();
             Assert.AreEqual(expected, actualResult);
@@ -70,7 +70,7 @@ namespace PageObjects
 
         public CommentPage EditComment(string message)
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(commentsBy);
 
             commentsList.First().Click();
@@ -84,7 +84,7 @@ namespace PageObjects
 
         public CommentPage VerifyThatCommentEdited(string expected)
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(statusEditCommentBy);
             string actualResult = statusEditComment.GetAttribute("innerText").ToString();
             Assert.AreEqual(expected, actualResult);
@@ -93,11 +93,11 @@ namespace PageObjects
 
         public CommentPage DeleteComment()
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(commentsBy);
             commentsList.First().Click();
             deleteCommentButton.Click();
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(confirmDeleteButtonBy);
             confirmDeleteButton.Click();
             return this;
@@ -105,7 +105,7 @@ namespace PageObjects
 
         public CommentPage VerifyThatCommentDeleted(string expected)
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(deleteCommentAllertBy);
             string actualResult = deleteCommentAllert.GetAttribute("innerText").ToString();
             Assert.AreEqual(expected, actualResult);

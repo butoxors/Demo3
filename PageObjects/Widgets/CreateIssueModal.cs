@@ -26,13 +26,13 @@ namespace PageObjects.Pages.Widgets
 
         public CreateIssueModal CreateNewIssue(string summary)
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             WaitBy(IssueSummaryBy);
             IssueSummary.SendKeys(summary);
             CreateIssueButton.Click();
-            WaitForLoaded();
+            WaitForPageToLoad();
             WebDriver.Navigate().Refresh();
-            WaitForLoaded();
+            WaitForPageToLoad();
 
             return this;
         }

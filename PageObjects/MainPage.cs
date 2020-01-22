@@ -3,7 +3,7 @@ using OpenQA.Selenium.Support.PageObjects;
 
 namespace PageObjects
 {
-    public class MainPage : BasePage, IGoToPage<MainPage>
+    public class MainPage : BasePage
     {
         public readonly new string url = "https://jira.softserve.academy/secure/Dashboard.jspa";
         public readonly By ProjectsButtonBy = By.XPath("//a[@id='browse_link']");
@@ -14,7 +14,7 @@ namespace PageObjects
 
         public MainPage(IWebDriver webDriver) : base(webDriver) { }
 
-        public MainPage GoTo()
+        public MainPage GoToMainPage()
         {
             WebDriver.Navigate().GoToUrl(url);
             return this;
@@ -22,7 +22,7 @@ namespace PageObjects
 
         public MainPage OpenProject()
         {
-            WaitForLoaded();
+            WaitForPageToLoad();
             ProjectsButton.Click();
             WaitBy(CurrentProjectBy);
             CurrentProject.Click();

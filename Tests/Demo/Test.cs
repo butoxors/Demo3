@@ -6,65 +6,46 @@ namespace Tests.Demo
     [TestFixture]
     public class Test : BaseTest
     {
-        private void PreConditions()
-        {
-            loginPage
-                .GoTo()
-                .LogIn();
-            mainPage
-                .OpenProject();
-        }
-
-        [Test(Description = "JB-001 - User can create new issue in project")]
-
-        public void JB001()
+        [Test(Description = "User can create new issue in project"), Order(1)]
+        public void TestUserCanCreateNewIssueInProject()
         {
             string issueName = "Test summary" + new Random().Next(1, 1000);
 
-            PreConditions();
-
             issuesPage
                 .OpenCreateIssueModal()
-                .initIssueModal()
-                .createIssueModal
+                .InitIssueModal()
+                .CreateIssueModal
                 .CreateNewIssue(issueName);
             issuesPage
                 .VerifyThatIssueWasCreated(issueName);
         }
 
-        [Test(Description = "JB-010 - User can view issue`s workflow from issue")]
-        public void JB010()
+        [Test(Description = "User can view issue`s workflow from issue"), Order(5)]
+        public void TestUserCanViewIssuesWorkflowFromIssue()
         {
-            PreConditions();
-
             issuesPage.
                 OpenWorkflow().
                 VerifyThatWorkflowWasOpened();
+            issuesPage.CloseWorkflow();
         }
 
-        [Test(Description = "User can create comment in issue")]
-        public void JB020()
+        [Test(Description = "User can create comment in issue"), Order(2)]
+        public void TestUserCanCreateCommentInIssue()
         {
-            PreConditions();
-
             commentPage.CreateComment("TestComment")
                 .VerifyThatCommentCreated("TestComment");    
         }
 
-        [Test(Description = "User can edit comment in issue")]
-        public void JB030()
+        [Test(Description = "User can edit comment in issue"), Order(3)]
+        public void TestCanEditCommentInIssue()
         {
-            PreConditions();
-
             commentPage.EditComment("EditTestComment")
                 .VerifyThatCommentEdited("edited");
         }
 
-        [Test(Description = "User can delete comment in issue")]
-        public void JB040()
+        [Test(Description = "User can delete comment in issue"), Order(4)]
+        public void TestUserCanDeleteCommentInIssue()
         {
-            PreConditions();
-
             commentPage.DeleteComment()
                 .VerifyThatCommentDeleted("TEST-12 has been updated.");
         }
